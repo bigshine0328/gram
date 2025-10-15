@@ -25,3 +25,9 @@ jobs:
         -d "user_id=${{ secrets.USER_ID }}" -d "user_pw=${{ secrets.USER_PW }}" \
         -d "ftoken=${{ env.FTOKEN }}" -d "fcheck=true" -d "type=login" \
         -o result.html
+    
+    - name: Upload result.html
+      uses: actions/upload-artifact@v4
+      with:
+        name: result
+        path: result.html
