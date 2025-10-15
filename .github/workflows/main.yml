@@ -9,6 +9,7 @@ on:
 jobs:
   login_and_process:
     runs-on: ubuntu-latest
+    environment: prod   # ← prod環境のSecretsを使う
     steps:
     - name: Get login page
       run: curl -c cookies.txt https://gramov.com/login/ -o login.html
