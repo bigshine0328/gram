@@ -1,0 +1,26 @@
+name: Daily Login
+
+on:
+  schedule:
+    # 毎日16:00 JST = 07:00 UTC (1月曜～6土曜のみ)
+    - cron: '0 7 * * 1-7'
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  login_and_process:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get login page
+      run: curl -c cookies.txt https://gramov.com/login/ -o login.html
+
+    - name: Extract dynamic token
+      run: |
+        export FTOKEN=$(grep 'name="ftoken"' login.html | sed -e 's/.*value="\([^"]*\)".*/\1/')
+        echo "FTOKEN=$FTOKEN" >> $GITHUB_ENV
+
+    - name: Login with curl
+      run: |
+        curl -b cookies.txt -c cookies.txt -X POST https://example.com/login/index.php \
+        -d "user_id=${{ secrets.USER_ID }}" -d "user_pw=${{ secrets.USER_PW }}" \
+        -d "ftoken=${{ env.FTOKEN }}" -d "fcheck=true" -d "type=login" \
+        -o result.html
