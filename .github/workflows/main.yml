@@ -21,7 +21,7 @@ jobs:
 
     - name: Login with curl
       run: |
-        curl -b cookies.txt -c cookies.txt -X POST https://example.com/login/index.php \
+        curl -b cookies.txt -c cookies.txt -X POST https://gramov.com/login/ \
         -d "user_id=${{ secrets.USER_ID }}" -d "user_pw=${{ secrets.USER_PW }}" \
         -d "ftoken=${{ env.FTOKEN }}" -d "fcheck=true" -d "type=login" \
         -o result.html
